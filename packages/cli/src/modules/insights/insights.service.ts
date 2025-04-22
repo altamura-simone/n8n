@@ -16,7 +16,7 @@ import { NumberToType } from './database/entities/insights-shared';
 import { InsightsByPeriodRepository } from './database/repositories/insights-by-period.repository';
 import { InsightsCollectionService } from './insights-collection.service';
 import { InsightsCompactionService } from './insights-compaction.service';
-import { InsightsConfig } from './insights.config';
+import { InsightsPruningService } from './insights-pruning.service';
 
 const keyRangeToDays: Record<InsightsDateRange['key'], number> = {
 	day: 1,
@@ -30,62 +30,37 @@ const keyRangeToDays: Record<InsightsDateRange['key'], number> = {
 
 @Service()
 export class InsightsService {
-	private pruneInsightsTimer: NodeJS.Timer | undefined;
-
 	constructor(
 		private readonly insightsByPeriodRepository: InsightsByPeriodRepository,
-		private readonly config: InsightsConfig,
 		private readonly compactionService: InsightsCompactionService,
 		private readonly collectionService: InsightsCollectionService,
+		private readonly pruningService: InsightsPruningService,
 		private readonly license: License,
-		private readonly logger: Logger,
+		private readonly logger: Logger, // Assuming a logger is injected,
 	) {}
-
-	get isPruningEnabled() {
-		return this.config.maxAgeDays > -1;
-	}
 
 	startBackgroundProcess() {
 		this.compactionService.startCompactionTimer();
 		this.collectionService.startFlushingTimer();
-		this.startPruningScheduling();
-		this.stopPruningScheduling();
+		this.pruningService.startPruningTimer();
 		this.logger.debug('Started compaction, flushing and pruning schedulers');
 	}
 
-	startPruningScheduling() {
-		if (!this.isPruningEnabled) {
-			return;
-		}
-
-		this.stopPruningScheduling();
-		this.pruneInsightsTimer = setInterval(
-			async () => await this.pruneInsights(),
-			this.config.pruneCheckIntervalHours * 60 * 60 * 1000,
-		);
-		this.logger.debug(`Insights pruning every ${this.config.pruneCheckIntervalHours} hours`);
-	}
-
-	stopPruningScheduling() {
-		if (this.pruneInsightsTimer !== undefined) {
-			clearInterval(this.pruneInsightsTimer);
-			this.pruneInsightsTimer = undefined;
-		}
+	stopBackgroundProcess() {
+		this.compactionService.stopCompactionTimer();
+		this.collectionService.stopFlushingTimer();
+		this.pruningService.stopPruningTimer();
+		this.logger.debug('Stopped compaction, flushing and pruning schedulers');
 	}
 
 	@OnShutdown()
 	async shutdown() {
 		await this.collectionService.shutdown();
-		this.compactionService.stopCompactionTimer();
+		this.stopBackgroundProcess();
 	}
 
 	async workflowExecuteAfterHandler(ctx: ExecutionLifecycleHooks, fullRunData: IRun) {
 		await this.collectionService.workflowExecuteAfterHandler(ctx, fullRunData);
-	}
-
-	async pruneInsights() {
-		const result = await this.insightsByPeriodRepository.pruneOldData(this.config.maxAgeDays);
-		this.logger.debug('Hard-deleted insights', { count: result.affected });
 	}
 
 	async getInsightsSummary({
