@@ -18,7 +18,6 @@ import type { InsightsCollectionService } from '../insights-collection.service';
 import type { InsightsCompactionService } from '../insights-compaction.service';
 import type { InsightsPruningService } from '../insights-pruning.service';
 import { InsightsService } from '../insights.service';
-import { InsightsConfig } from '../insights.config';
 
 // Initialize DB once for all tests
 beforeAll(async () => {
@@ -605,6 +604,7 @@ describe('getMaxAgeInDaysAndGranularity', () => {
 			mock<InsightsByPeriodRepository>(),
 			mock<InsightsCompactionService>(),
 			mock<InsightsCollectionService>(),
+			mock<InsightsPruningService>(),
 			licenseMock,
 			mock<Logger>(),
 		);
@@ -727,6 +727,10 @@ describe('backgroundProcess', () => {
 		stopPruningTimer: jest.fn(),
 	} as unknown as InsightsPruningService;
 
+	const mockLogger = {
+		debug: jest.fn(),
+	} as unknown as Logger;
+
 	beforeAll(() => {
 		insightsService = new InsightsService(
 			mock<InsightsByPeriodRepository>(),
@@ -734,7 +738,7 @@ describe('backgroundProcess', () => {
 			mockCollectionService,
 			mockPruningService,
 			mock<License>(),
-			mock<Logger>(),
+			mockLogger,
 		);
 	});
 
@@ -746,6 +750,9 @@ describe('backgroundProcess', () => {
 		expect(mockCompactionService.startCompactionTimer).toHaveBeenCalled();
 		expect(mockCollectionService.startFlushingTimer).toHaveBeenCalled();
 		expect(mockPruningService.startPruningTimer).toHaveBeenCalled();
+		expect(mockLogger.debug).toHaveBeenCalledWith(
+			'Started compaction, flushing and pruning schedulers',
+		);
 	});
 
 	test('stopBackgroundProcess stops timers and logs message', () => {
@@ -756,5 +763,8 @@ describe('backgroundProcess', () => {
 		expect(mockCompactionService.stopCompactionTimer).toHaveBeenCalled();
 		expect(mockCollectionService.stopFlushingTimer).toHaveBeenCalled();
 		expect(mockPruningService.stopPruningTimer).toHaveBeenCalled();
+		expect(mockLogger.debug).toHaveBeenCalledWith(
+			'Stopped compaction, flushing and pruning schedulers',
+		);
 	});
 });
