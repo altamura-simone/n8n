@@ -35,6 +35,15 @@ const home = computed<IMenuItem>(() => ({
 	},
 }));
 
+const shared = computed<IMenuItem>(() => ({
+	id: 'shared',
+	label: locale.baseText('projects.menu.shared'),
+	icon: 'share',
+	route: {
+		to: { name: VIEWS.SHARED_WITH_ME },
+	},
+}));
+
 const getProjectMenuItem = (project: ProjectListItem) => ({
 	id: project.id,
 	label: project.name,
@@ -74,6 +83,21 @@ const showAddFirstProject = computed(
 				mode="tabs"
 				data-test-id="project-home-menu-item"
 			/>
+			<!-- TODO: Only render personal here if project are enabled (registered community and up) -->
+			<N8nMenuItem
+				:item="personalProject"
+				:compact="props.collapsed"
+				:active-tab="projectsStore.projectNavActiveId"
+				mode="tabs"
+				data-test-id="project-personal-menu-item"
+			/>
+			<N8nMenuItem
+				:item="shared"
+				:compact="props.collapsed"
+				:active-tab="projectsStore.projectNavActiveId"
+				mode="tabs"
+				data-test-id="project-shared-menu-item"
+			/>
 		</ElMenu>
 		<hr v-if="projectsStore.isTeamProjectFeatureEnabled" class="mt-m mb-m" />
 		<N8nText
@@ -104,13 +128,6 @@ const showAddFirstProject = computed(
 			:collapse="props.collapsed"
 			:class="$style.projectItems"
 		>
-			<N8nMenuItem
-				:item="personalProject"
-				:compact="props.collapsed"
-				:active-tab="projectsStore.projectNavActiveId"
-				mode="tabs"
-				data-test-id="project-personal-menu-item"
-			/>
 			<N8nMenuItem
 				v-for="project in displayProjects"
 				:key="project.id"

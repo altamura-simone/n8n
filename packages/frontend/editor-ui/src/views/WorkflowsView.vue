@@ -192,6 +192,9 @@ const mainBreadcrumbsActions = computed(() =>
 
 const readOnlyEnv = computed(() => sourceControlStore.preferences.branchReadOnly);
 const isOverviewPage = computed(() => route.name === VIEWS.WORKFLOWS);
+const isSharedPage = computed(() => {
+	return [VIEWS.SHARED_WITH_ME, VIEWS.SHARED_WORKFLOWS].includes(route.name as VIEWS);
+});
 const currentUser = computed(() => usersStore.currentUser ?? ({} as IUser));
 const isShareable = computed(
 	() => settingsStore.isEnterpriseFeatureEnabled[EnterpriseEditionFeature.Sharing],
@@ -206,7 +209,7 @@ const teamProjectsEnabled = computed(() => {
 });
 
 const showFolders = computed(() => {
-	return foldersEnabled.value && !isOverviewPage.value;
+	return foldersEnabled.value && !isOverviewPage.value && !isSharedPage.value;
 });
 
 const currentFolder = computed(() => {
@@ -480,6 +483,7 @@ const fetchWorkflows = async () => {
 
 	// Only fetch folders if showFolders is enabled and there are not tags or active filter applied
 	const fetchFolders = showFolders.value && !tags.length && activeFilter === undefined;
+	console.log('SHOW FOLDERS', showFolders.value, 'FETCH FOLDERS', fetchFolders);
 
 	try {
 		const fetchedResources = await workflowsStore.fetchWorkflowsPage(
@@ -496,6 +500,7 @@ const fetchWorkflows = async () => {
 					(isOverviewPage.value ? undefined : filters?.value.search ? undefined : PROJECT_ROOT), // Sending 0 will only show one level of folders
 			},
 			fetchFolders,
+			isSharedPage.value,
 		);
 
 		foldersStore.cacheFolders(
