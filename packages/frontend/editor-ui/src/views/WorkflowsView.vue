@@ -515,7 +515,8 @@ const fetchWorkflows = async () => {
 		workflowsAndFolders.value = fetchedResources;
 
 		// Toggle ownership cards visibility only after we have fetched the workflows
-		showCardsBadge.value = isOverviewPage.value || filters.value.search !== '';
+		showCardsBadge.value =
+			isOverviewPage.value || isSharedPage.value || filters.value.search !== '';
 
 		return fetchedResources;
 	} catch (error) {

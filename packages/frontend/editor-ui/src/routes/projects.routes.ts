@@ -182,6 +182,20 @@ export const projectsRoutes: RouteRecordRaw[] = [
 					},
 				},
 			},
+			{
+				path: 'credentials',
+				name: VIEWS.SHARED_CREDENTIALS,
+				components: {
+					default: CredentialsView,
+					sidebar: MainSidebar,
+				},
+				meta: {
+					middleware: ['authenticated', 'custom'],
+					middlewareOptions: {
+						custom: (options) => checkProjectAvailability(options?.to),
+					},
+				},
+			},
 		],
 	},
 	{
