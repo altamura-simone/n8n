@@ -356,12 +356,9 @@ const showRegisteredCommunityCTA = computed(
  * WATCHERS, STORE SUBSCRIPTIONS AND EVENT BUS HANDLERS
  */
 
-watch(
-	() => route.params?.projectId,
-	async () => {
-		await initialize();
-	},
-);
+watch([() => route.params?.projectId, () => route.name], async () => {
+	await initialize();
+});
 
 watch(
 	() => route.params?.folderId,
@@ -483,7 +480,6 @@ const fetchWorkflows = async () => {
 
 	// Only fetch folders if showFolders is enabled and there are not tags or active filter applied
 	const fetchFolders = showFolders.value && !tags.length && activeFilter === undefined;
-	console.log('SHOW FOLDERS', showFolders.value, 'FETCH FOLDERS', fetchFolders);
 
 	try {
 		const fetchedResources = await workflowsStore.fetchWorkflowsPage(
@@ -495,9 +491,7 @@ const fetchWorkflows = async () => {
 				name: filters.value.search || undefined,
 				active: activeFilter,
 				tags: tags.length ? tags : undefined,
-				parentFolderId:
-					parentFolder ??
-					(isOverviewPage.value ? undefined : filters?.value.search ? undefined : PROJECT_ROOT), // Sending 0 will only show one level of folders
+				parentFolderId: getParentFolderId(parentFolder),
 			},
 			fetchFolders,
 			isSharedPage.value,
@@ -536,6 +530,24 @@ const fetchWorkflows = async () => {
 			breadcrumbsLoading.value = false;
 		}
 	}
+};
+
+/**
+ * Get parent folder id for filtering requests
+ */
+const getParentFolderId = (routeId?: string) => {
+	// If parentFolder is defined in route, use it
+	if (routeId !== null && routeId !== undefined) {
+		return routeId;
+	}
+
+	// If we're on overview/shared page or searching, don't filter by parent folder
+	if (isOverviewPage.value || isSharedPage.value || filters?.value.search) {
+		return undefined;
+	}
+
+	// Default: 0 will only show one level of folders
+	return PROJECT_ROOT;
 };
 
 // Filter and sort methods
