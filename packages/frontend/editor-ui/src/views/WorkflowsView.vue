@@ -1617,11 +1617,13 @@ const onCreateWorkflowClick = () => {
 		</template>
 		<template #postamble>
 			<div
-				v-if="workflowsAndFolders.length === 0 && currentFolder && !hasFilters"
+				v-if="workflowsAndFolders.length === 0 && !hasFilters"
 				:class="$style['empty-folder-container']"
 				data-test-id="empty-folder-container"
 			>
+				<div v-if="isSharedPage">{{ i18n.baseText('workflows.empty.shared-with-me') }}</div>
 				<n8n-action-box
+					v-else-if="currentFolder"
 					data-test-id="empty-folder-action-box"
 					:heading="
 						i18n.baseText('folders.empty.actionbox.title', {
