@@ -1363,10 +1363,12 @@ const onCreateWorkflowClick = () => {
 		<template v-if="foldersEnabled || showRegisteredCommunityCTA" #add-button>
 			<N8nTooltip
 				placement="top"
-				:disabled="!(isOverviewPage || (!readOnlyEnv && hasPermissionToCreateFolders))"
+				:disabled="
+					!(isOverviewPage || isSharedPage || (!readOnlyEnv && hasPermissionToCreateFolders))
+				"
 			>
 				<template #content>
-					<span v-if="isOverviewPage && !showRegisteredCommunityCTA">
+					<span v-if="(isOverviewPage || isSharedPage) && !showRegisteredCommunityCTA">
 						<span v-if="teamProjectsEnabled">
 							{{ i18n.baseText('folders.add.overview.withProjects.message') }}
 						</span>
