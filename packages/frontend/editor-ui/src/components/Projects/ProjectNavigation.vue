@@ -23,7 +23,6 @@ const settingsStore = useSettingsStore();
 
 const isCreatingProject = computed(() => globalEntityCreation.isCreatingProject.value);
 const displayProjects = computed(() => globalEntityCreation.displayProjects.value);
-// TODO: Once we remove the feature flag, we can remove this computed property
 const isFoldersFeatureEnabled = computed(() => settingsStore.isFoldersFeatureEnabled);
 
 const home = computed<IMenuItem>(() => ({
@@ -83,8 +82,8 @@ const showAddFirstProject = computed(
 				mode="tabs"
 				data-test-id="project-home-menu-item"
 			/>
-			<!-- TODO: Only render personal here if project are enabled (registered community and up) -->
 			<N8nMenuItem
+				v-if="projectsStore.isTeamProjectFeatureEnabled || isFoldersFeatureEnabled"
 				:item="personalProject"
 				:compact="props.collapsed"
 				:active-tab="projectsStore.projectNavActiveId"
@@ -92,6 +91,7 @@ const showAddFirstProject = computed(
 				data-test-id="project-personal-menu-item"
 			/>
 			<N8nMenuItem
+				v-if="projectsStore.isTeamProjectFeatureEnabled || isFoldersFeatureEnabled"
 				:item="shared"
 				:compact="props.collapsed"
 				:active-tab="projectsStore.projectNavActiveId"
