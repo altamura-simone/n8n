@@ -111,6 +111,10 @@ const projectPermissions = computed(() =>
 	),
 );
 
+const personalProject = computed<Project | null>(() => {
+	return projectsStore.personalProject;
+});
+
 const setRouteCredentialId = (credentialId?: string) => {
 	void router.replace({ params: { credentialId }, query: route.query });
 };
@@ -307,7 +311,13 @@ onMounted(() => {
 			</div>
 		</template>
 		<template #empty>
+			<EmptySharedSectionActionBox
+				v-if="overview.isSharedSubPage && personalProject"
+				:personal-project="personalProject"
+				resource-type="credentials"
+			/>
 			<n8n-action-box
+				v-else
 				data-test-id="empty-resources-list"
 				emoji="👋"
 				:heading="
