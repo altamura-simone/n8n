@@ -109,4 +109,20 @@ export class WorkflowSharingService {
 			];
 		});
 	}
+
+	async getOwnedWorkflowsInPersonalProject(user: User): Promise<string[]> {
+		const sharedWorkflows = await this.sharedWorkflowRepository.find({
+			select: ['workflowId'],
+			where: {
+				role: 'workflow:owner',
+				project: {
+					projectRelations: {
+						userId: user.id,
+						role: 'project:personalOwner',
+					},
+				},
+			},
+		});
+		return sharedWorkflows.map(({ workflowId }) => workflowId);
+	}
 }
