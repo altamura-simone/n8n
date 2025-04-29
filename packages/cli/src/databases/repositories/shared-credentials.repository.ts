@@ -129,7 +129,10 @@ export class SharedCredentialsRepository extends Repository<SharedCredentials> {
 		userIds: string[],
 		options:
 			| { scopes: Scope[] }
-			| { projectRoles: ProjectRole[]; credentialRoles: CredentialSharingRole[] },
+			| {
+					projectRoles: ProjectRole[];
+					credentialRoles: CredentialSharingRole[];
+			  },
 		trx?: EntityManager,
 	) {
 		trx = trx ?? this.manager;
