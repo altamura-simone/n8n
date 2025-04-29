@@ -65,6 +65,10 @@ const showSettings = computed(
 
 const homeProject = computed(() => projectsStore.currentProject ?? projectsStore.personalProject);
 
+const isPersonalProject = computed(() => {
+	return homeProject.value?.type === ProjectTypes.Personal;
+});
+
 const showFolders = computed(() => {
 	return (
 		settingsStore.isFoldersFeatureEnabled &&
@@ -108,6 +112,10 @@ const menu = computed(() => {
 		});
 	}
 	return items;
+});
+
+const showProjectIcon = computed(() => {
+	return !overview.isOverviewSubPage && !overview.isSharedSubPage && !isPersonalProject.value;
 });
 
 const actions: Record<ActionTypes, (projectId: string) => void> = {
@@ -157,12 +165,7 @@ const pageType = computed(() => {
 	<div>
 		<div :class="$style.projectHeader">
 			<div :class="$style.projectDetails">
-				<ProjectIcon
-					v-if="!overview.isOverviewSubPage && !overview.isSharedSubPage"
-					:icon="headerIcon"
-					:border-less="true"
-					size="medium"
-				/>
+				<ProjectIcon v-if="showProjectIcon" :icon="headerIcon" :border-less="true" size="medium" />
 				<div :class="$style.headerActions">
 					<N8nHeading v-if="projectName" bold tag="h2" size="xlarge">{{ projectName }}</N8nHeading>
 					<N8nText color="text-light">
@@ -173,6 +176,9 @@ const pageType = computed(() => {
 							<span v-else-if="overview.isSharedSubPage">{{
 								i18n.baseText('projects.header.shared.subtitle')
 							}}</span>
+							<span v-else-if="isPersonalProject">
+								{{ i18n.baseText('projects.header.personal.subtitle') }}
+							</span>
 						</slot>
 					</N8nText>
 				</div>
