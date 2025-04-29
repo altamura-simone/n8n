@@ -53,7 +53,7 @@ import { getEasyAiWorkflowJson } from '@/utils/easyAiWorkflowUtils';
 import { useDebounce } from '@/composables/useDebounce';
 import { createEventBus } from '@n8n/utils/event-bus';
 import type { PathItem } from '@n8n/design-system/components/N8nBreadcrumbs/Breadcrumbs.vue';
-import { type ProjectSharingData, ProjectTypes } from '@/types/projects.types';
+import { type Project, type ProjectSharingData, ProjectTypes } from '@/types/projects.types';
 import { FOLDER_LIST_ITEM_ACTIONS } from '@/components/Folders/constants';
 import { debounce } from 'lodash-es';
 import { useMessage } from '@/composables/useMessage';
@@ -260,6 +260,10 @@ const currentParentName = computed(() => {
 	return projectName.value;
 });
 
+const personalProject = computed<Project | null>(() => {
+	return projectsStore.personalProject;
+});
+
 const workflowListResources = computed<Resource[]>(() => {
 	const resources: Resource[] = (workflowsAndFolders.value || []).map((resource) => {
 		if (resource.resource === 'folder') {
@@ -320,7 +324,7 @@ const showEasyAIWorkflowCallout = computed(() => {
 
 const projectPermissions = computed(() => {
 	return getResourcePermissions(
-		projectsStore.currentProject?.scopes ?? projectsStore.personalProject?.scopes,
+		projectsStore.currentProject?.scopes ?? personalProject.value?.scopes,
 	);
 });
 
@@ -1469,7 +1473,7 @@ const onCreateWorkflowClick = () => {
 					:read-only="
 						readOnlyEnv || (!hasPermissionToDeleteFolders && !hasPermissionToCreateFolders)
 					"
-					:personal-project="projectsStore.personalProject"
+					:personal-project="personalProject"
 					:data-resourceid="(data as FolderResource).id"
 					:data-resourcename="(data as FolderResource).name"
 					:class="{
@@ -1616,12 +1620,17 @@ const onCreateWorkflowClick = () => {
 			</div>
 		</template>
 		<template #postamble>
+			<!-- Empty states for shared section and folders -->
 			<div
 				v-if="workflowsAndFolders.length === 0 && !hasFilters"
 				:class="$style['empty-folder-container']"
 				data-test-id="empty-folder-container"
 			>
-				<div v-if="isSharedPage">{{ i18n.baseText('workflows.empty.shared-with-me') }}</div>
+				<EmptySharedSectionActionBox
+					v-if="isSharedPage && personalProject"
+					:personal-project="personalProject"
+					resource-type="workflows"
+				/>
 				<n8n-action-box
 					v-else-if="currentFolder"
 					data-test-id="empty-folder-action-box"
