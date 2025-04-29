@@ -182,7 +182,11 @@ const initialize = async () => {
 		useSettingsStore().isEnterpriseFeatureEnabled[EnterpriseEditionFeature.Variables];
 
 	const loadPromises = [
-		credentialsStore.fetchAllCredentials(route?.params?.projectId as string | undefined),
+		credentialsStore.fetchAllCredentials(
+			route?.params?.projectId as string | undefined,
+			true,
+			overview.isSharedSubPage,
+		),
 		credentialsStore.fetchCredentialTypes(false),
 		externalSecretsStore.fetchAllSecrets(),
 		nodeTypesStore.loadNodeTypesIfNotLoaded(),
