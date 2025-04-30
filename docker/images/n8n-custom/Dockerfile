@@ -3,6 +3,8 @@ ARG NODE_VERSION=20
 # 1. Create an image to build n8n
 FROM --platform=linux/amd64 n8nio/base:${NODE_VERSION} AS builder
 
+ENV NODE_OPTIONS=--max-old-space-size=4096
+
 # Build the application from source
 WORKDIR /src
 COPY . /src
@@ -33,7 +35,7 @@ COPY docker/images/n8n/docker-entrypoint.sh /
 
 # Setup the Task Runner Launcher
 ARG TARGETPLATFORM
-ARG LAUNCHER_VERSION=1.1.1
+ARG LAUNCHER_VERSION=1.1.2
 COPY docker/images/n8n/n8n-task-runners.json /etc/n8n-task-runners.json
 # Download, verify, then extract the launcher binary
 RUN \
@@ -57,7 +59,13 @@ RUN \
 	ln -s /usr/local/lib/node_modules/n8n/bin/n8n /usr/local/bin/n8n && \
 	mkdir .n8n && \
 	chown node:node .n8n
+ENV SHELL=/bin/sh
 
-ENV SHELL /bin/sh
+RUN sed -i 's/\r$//' /usr/local/lib/node_modules/n8n/bin/n8n
+
+RUN chmod +x /usr/local/lib/node_modules/n8n/bin/n8n
+
+RUN which n8n && n8n --version
+
 USER node
 ENTRYPOINT ["tini", "--", "/docker-entrypoint.sh"]

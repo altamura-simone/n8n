@@ -13,7 +13,7 @@ export const useRootStore = defineStore(STORES.ROOT, () => {
 			!window.REST_ENDPOINT || window.REST_ENDPOINT === '{{REST_ENDPOINT}}'
 				? 'rest'
 				: window.REST_ENDPOINT,
-		defaultLocale: 'en',
+		defaultLocale: localStorage.getItem('user-language') ?? 'en',
 		endpointForm: 'form',
 		endpointFormTest: 'form-test',
 		endpointFormWaiting: 'form-waiting',
