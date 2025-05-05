@@ -1,4 +1,6 @@
 import type { DismissBannerRequestDto, OwnerSetupRequestDto } from '@n8n/api-types';
+import type { User } from '@n8n/db';
+import type { PublicUser } from '@n8n/db';
 import type { Response } from 'express';
 import { mock } from 'jest-mock-extended';
 import type { Logger } from 'n8n-core';
@@ -6,7 +8,6 @@ import type { Logger } from 'n8n-core';
 import type { AuthService } from '@/auth/auth.service';
 import config from '@/config';
 import { OwnerController } from '@/controllers/owner.controller';
-import type { User } from '@/databases/entities/user';
 import type { SettingsRepository } from '@/databases/repositories/settings.repository';
 import type { UserRepository } from '@/databases/repositories/user.repository';
 import { BadRequestError } from '@/errors/response-errors/bad-request.error';

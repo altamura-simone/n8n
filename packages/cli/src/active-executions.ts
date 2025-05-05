@@ -1,3 +1,4 @@
+import type { CreateExecutionPayload, IExecutionDb } from '@n8n/db';
 import { Service } from '@n8n/di';
 import { Logger } from 'n8n-core';
 import type {

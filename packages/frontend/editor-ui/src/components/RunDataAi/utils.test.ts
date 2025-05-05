@@ -609,6 +609,42 @@ describe(createLogEntries, () => {
 			}),
 		]);
 	});
+
+	it('should not include runs for disabled nodes', () => {
+		const workflow = createTestWorkflowObject({
+			nodes: [createTestNode({ name: 'A' }), createTestNode({ name: 'B', disabled: true })],
+			connections: {
+				A: { main: [[{ node: 'B', type: NodeConnectionTypes.Main, index: 0 }]] },
+			},
+		});
+
+		expect(
+			createLogEntries(workflow, { A: [createTestTaskData()], B: [createTestTaskData()] }),
+		).toEqual([expect.objectContaining({ node: expect.objectContaining({ name: 'A' }) })]);
+	});
+});
+
+describe(deepToRaw, () => {
+	it('should convert reactive fields to raw in data with circular structure', () => {
+		const data = reactive({
+			foo: reactive({ bar: {} }),
+			bazz: {},
+		});
+
+		data.foo.bar = data;
+		data.bazz = data;
+
+		const raw = deepToRaw(data);
+
+		expect(isReactive(data)).toBe(true);
+		expect(isReactive(data.foo)).toBe(true);
+		expect(isReactive(data.foo.bar)).toBe(true);
+		expect(isReactive(data.bazz)).toBe(true);
+		expect(isReactive(raw)).toBe(false);
+		expect(isReactive(raw.foo)).toBe(false);
+		expect(isReactive(raw.foo.bar)).toBe(false);
+		expect(isReactive(raw.bazz)).toBe(false);
+	});
 });
 
 describe(deepToRaw, () => {

@@ -1,3 +1,4 @@
+import type { IExecutionResponse } from '@n8n/db';
 import { mock } from 'jest-mock-extended';
 import { WorkflowOperationError } from 'n8n-workflow';
 

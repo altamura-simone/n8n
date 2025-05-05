@@ -68,8 +68,7 @@ import '@/license/license.controller';
 import '@/evaluation.ee/test-definitions.controller.ee';
 import '@/evaluation.ee/test-runs.controller.ee';
 import '@/workflows/workflow-history.ee/workflow-history.controller.ee';
-import '@/workflows/workflows.controller';
-import '@/webhooks/webhooks.controller';
+import '@/workflows/workflows.controller'
 import { Wso2Service } from '@/services/wso2.service';
 
 @Service()

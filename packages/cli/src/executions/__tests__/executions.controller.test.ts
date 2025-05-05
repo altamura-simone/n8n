@@ -1,3 +1,4 @@
+import type { ExecutionSummaries } from '@n8n/db';
 import { mock } from 'jest-mock-extended';
 
 import { BadRequestError } from '@/errors/response-errors/bad-request.error';

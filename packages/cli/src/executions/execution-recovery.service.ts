@@ -1,3 +1,4 @@
+import type { IExecutionResponse } from '@n8n/db';
 import { Service } from '@n8n/di';
 import type { DateTime } from 'luxon';
 import { InstanceSettings, Logger } from 'n8n-core';

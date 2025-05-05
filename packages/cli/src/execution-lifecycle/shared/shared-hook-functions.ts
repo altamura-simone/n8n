@@ -1,3 +1,4 @@
+import type { IExecutionDb } from '@n8n/db';
 import { Container } from '@n8n/di';
 import pick from 'lodash/pick';
 import { Logger } from 'n8n-core';
