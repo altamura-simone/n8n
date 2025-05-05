@@ -3,7 +3,6 @@ import { Column, Entity, ManyToOne, PrimaryColumn } from '@n8n/typeorm';
 import { IConnections } from 'n8n-workflow';
 import type { INode } from 'n8n-workflow';
 
-import { JsonColumn, WithTimestamps } from './abstract-entity';
 import { WorkflowEntity } from './workflow-entity';
 
 @Entity()

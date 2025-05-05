@@ -1,7 +1,5 @@
 import { DateTimeColumn } from '@n8n/db';
 import { Column, Entity, PrimaryGeneratedColumn } from '@n8n/typeorm';
-
-import { DateTimeColumn } from './abstract-entity';
 import { AuthProviderType, RunningMode, SyncStatus } from './types-db';
 
 @Entity()

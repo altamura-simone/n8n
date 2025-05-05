@@ -3,6 +3,7 @@ import { Column, Entity, OneToMany } from '@n8n/typeorm';
 import type { ProjectRelation } from './project-relation';
 import type { SharedCredentials } from './shared-credentials';
 import type { SharedWorkflow } from './shared-workflow';
+import { WithTimestampsAndStringId } from './abstract-entity';
 
 @Entity()
 export class Project extends WithTimestampsAndStringId {

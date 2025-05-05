@@ -2,7 +2,6 @@ import { JsonColumn, WithTimestampsAndStringId } from '@n8n/db';
 import { Column, Entity, Index, ManyToOne, OneToMany, RelationId } from '@n8n/typeorm';
 import { Length } from 'class-validator';
 
-import { JsonColumn, WithTimestampsAndStringId } from './abstract-entity';
 import { AnnotationTagEntity } from './annotation-tag-entity.ee';
 import type { TestMetric } from './test-metric.ee';
 import type { MockedNodeItem } from './types-db';

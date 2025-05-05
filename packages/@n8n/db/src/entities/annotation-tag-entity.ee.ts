@@ -1,8 +1,6 @@
 import { WithTimestampsAndStringId } from '@n8n/db';
 import { Column, Entity, Index, ManyToMany, OneToMany } from '@n8n/typeorm';
 import { IsString, Length } from 'class-validator';
-
-import { WithTimestampsAndStringId } from './abstract-entity';
 import type { AnnotationTagMapping } from './annotation-tag-mapping.ee';
 import type { ExecutionAnnotation } from './execution-annotation.ee';
 

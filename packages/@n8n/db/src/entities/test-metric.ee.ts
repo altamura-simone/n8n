@@ -2,7 +2,6 @@ import { WithTimestampsAndStringId } from '@n8n/db';
 import { Column, Entity, Index, ManyToOne } from '@n8n/typeorm';
 import { Length } from 'class-validator';
 
-import { WithTimestampsAndStringId } from './abstract-entity';
 import { TestDefinition } from './test-definition.ee';
 
 /**
