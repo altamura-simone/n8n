@@ -1,4 +1,3 @@
-import { JsonColumn, WithTimestamps, objectRetriever, lowerCaser } from '@n8n/db';
 import { hasScope, type ScopeOptions, type Scope, GlobalRole } from '@n8n/permissions';
 import { GLOBAL_OWNER_SCOPES, GLOBAL_MEMBER_SCOPES, GLOBAL_ADMIN_SCOPES } from '@n8n/permissions';
 import {
@@ -15,12 +14,14 @@ import {
 import { IsEmail, IsString, Length } from 'class-validator';
 import type { IUser, IUserSettings } from 'n8n-workflow';
 
+import { JsonColumn, WithTimestamps } from './abstract-entity';
 import type { ApiKey } from './api-key';
 import type { AuthIdentity } from './auth-identity';
 import type { ProjectRelation } from './project-relation';
 import type { SharedCredentials } from './shared-credentials';
 import type { SharedWorkflow } from './shared-workflow';
 import type { IPersonalizationSurveyAnswers } from './types-db';
+import { lowerCaser, objectRetriever } from '../utils/transformers';
 import { NoUrl } from '../utils/validators/no-url.validator';
 import { NoXss } from '../utils/validators/no-xss.validator';
 

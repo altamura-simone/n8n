@@ -23,7 +23,6 @@ import {
 	isLdapCurrentAuthenticationMethod,
 	isSamlCurrentAuthenticationMethod,
 } from '@/sso.ee/sso-helpers';
-import type { PublicUser } from '@/types-db';
 
 @RestController()
 export class AuthController {

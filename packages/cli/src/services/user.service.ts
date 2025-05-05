@@ -14,7 +14,6 @@ import type { Invitation } from '@/interfaces';
 import type { PostHogClient } from '@/posthog';
 import type { UserRequest } from '@/requests';
 import { UrlService } from '@/services/url.service';
-import type { PublicUser } from '@/types-db';
 import { UserManagementMailer } from '@/user-management/email';
 
 import { PublicApiKeyService } from './public-api-key.service';

@@ -1,7 +1,7 @@
-import { WithTimestampsAndStringId, JsonColumn, DateTimeColumn } from '@n8n/db';
 import { Column, Entity, Index, ManyToOne, OneToMany, RelationId } from '@n8n/typeorm';
 import type { IDataObject } from 'n8n-workflow';
 
+import { DateTimeColumn, JsonColumn, WithTimestampsAndStringId } from './abstract-entity';
 import type { TestCaseExecution } from './test-case-execution.ee';
 import { TestDefinition } from './test-definition.ee';
 import { AggregatedTestRunMetrics } from './types-db';

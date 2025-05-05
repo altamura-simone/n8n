@@ -36,7 +36,6 @@ import { NotFoundError } from '@/errors/response-errors/not-found.error';
 import type { IExecutionFlattedResponse } from '@/interfaces';
 import { License } from '@/license';
 import { NodeTypes } from '@/node-types';
-import type { CreateExecutionPayload, ExecutionSummaries, IExecutionResponse } from '@/types-db';
 import { WaitTracker } from '@/wait-tracker';
 import { WorkflowRunner } from '@/workflow-runner';
 import { WorkflowSharingService } from '@/workflows/workflow-sharing.service';

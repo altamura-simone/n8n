@@ -16,7 +16,6 @@ import * as Db from '@/db';
 import { EventService } from '@/events/event.service';
 import { ExternalHooks } from '@/external-hooks';
 import type { CredentialRequest } from '@/requests';
-import type { ICredentialsDb } from '@/types-db';
 
 import type { IDependency, IJsonSchema } from '../../../types';
 

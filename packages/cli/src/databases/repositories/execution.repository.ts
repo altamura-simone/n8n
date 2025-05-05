@@ -17,7 +17,6 @@ import {
 	ExecutionAnnotation,
 	ExecutionMetadata,
 } from '@n8n/db';
-import { separate } from '@n8n/db';
 import { Service } from '@n8n/di';
 import type {
 	FindManyOptions,

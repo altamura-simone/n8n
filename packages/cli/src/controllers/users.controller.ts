@@ -30,7 +30,6 @@ import { ListQuery, AuthenticatedRequest, UserRequest } from '@/requests';
 import { FolderService } from '@/services/folder.service';
 import { ProjectService } from '@/services/project.service.ee';
 import { UserService } from '@/services/user.service';
-import type { PublicUser } from '@/types-db';
 import { WorkflowService } from '@/workflows/workflow.service';
 
 @RestController('/users')

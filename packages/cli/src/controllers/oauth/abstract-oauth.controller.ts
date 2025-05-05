@@ -17,7 +17,6 @@ import { NotFoundError } from '@/errors/response-errors/not-found.error';
 import { ExternalHooks } from '@/external-hooks';
 import type { AuthenticatedRequest, OAuthRequest } from '@/requests';
 import { UrlService } from '@/services/url.service';
-import type { ICredentialsDb } from '@/types-db';
 import * as WorkflowExecuteAdditionalData from '@/workflow-execute-additional-data';
 
 type CsrfStateParam = {

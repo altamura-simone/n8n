@@ -22,7 +22,6 @@ import { AuthenticatedRequest, MeRequest } from '@/requests';
 import { PasswordUtility } from '@/services/password.utility';
 import { UserService } from '@/services/user.service';
 import { isSamlLicensedAndEnabled } from '@/sso.ee/saml/saml-helpers';
-import type { PublicUser } from '@/types-db';
 
 import { PersonalizationSurveyAnswersV4 } from './survey-answers.dto';
 @RestController('/me')

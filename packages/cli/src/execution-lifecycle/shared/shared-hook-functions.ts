@@ -7,7 +7,6 @@ import { ensureError, type ExecutionStatus, type IRun, type IWorkflowBase } from
 import { ExecutionRepository } from '@/databases/repositories/execution.repository';
 import type { UpdateExecutionPayload } from '@/interfaces';
 import { ExecutionMetadataService } from '@/services/execution-metadata.service';
-import type { IExecutionDb } from '@/types-db';
 import { isWorkflowIdValid } from '@/utils';
 
 export function determineFinalExecutionStatus(runData: IRun): ExecutionStatus {
