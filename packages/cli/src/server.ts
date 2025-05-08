@@ -53,6 +53,7 @@ import '@/controllers/password-reset.controller';
 import '@/controllers/project.controller';
 import '@/controllers/role.controller';
 import '@/controllers/tags.controller';
+import '@/controllers/theme.controller';
 import '@/controllers/translation.controller';
 import '@/controllers/folder.controller';
 import '@/controllers/users.controller';
@@ -68,7 +69,7 @@ import '@/license/license.controller';
 import '@/evaluation.ee/test-definitions.controller.ee';
 import '@/evaluation.ee/test-runs.controller.ee';
 import '@/workflows/workflow-history.ee/workflow-history.controller.ee';
-import '@/workflows/workflows.controller'
+import '@/workflows/workflows.controller';
 import { Wso2Service } from '@/services/wso2.service';
 
 @Service()

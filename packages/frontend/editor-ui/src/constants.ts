@@ -518,6 +518,7 @@ export const enum VIEWS {
 	TEMPLATE = 'TemplatesWorkflowView',
 	TEMPLATE_SETUP = 'TemplatesWorkflowSetupView',
 	TEMPLATES = 'TemplatesSearchView',
+	THEMECUSTOMIZE = 'ThemeCustomizerView',
 	CREDENTIALS = 'CredentialsView',
 	VARIABLES = 'VariablesView',
 	NEW_WORKFLOW = 'NodeViewNew',
@@ -682,6 +683,7 @@ export const CURL_IMPORT_NODES_PROTOCOLS: { [key: string]: string } = {
 };
 
 export const enum STORES {
+	THEMES = 'theme',
 	COMMUNITY_NODES = 'communityNodes',
 	ROOT = 'root',
 	SETTINGS = 'settings',

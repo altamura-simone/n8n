@@ -85,6 +85,15 @@ const mainMenuItems = computed(() => [
 		route: { to: { name: VIEWS.TEMPLATES } },
 	},
 	{
+		// Link to in-app templates, available if custom templates are enabled
+		id: 'themecustomize',
+		icon: 'box-open',
+		label: 'Theme', //i18n.baseText('mainSidebar.templates'),
+		position: 'bottom',
+		available: true, //settingsStore.isTemplatesEnabled && templatesStore.hasCustomTemplatesHost,
+		route: { to: { name: VIEWS.THEMECUSTOMIZE } },
+	},
+	{
 		// Link to website templates, available if custom templates are not enabled
 		id: 'templates',
 		icon: 'box-open',

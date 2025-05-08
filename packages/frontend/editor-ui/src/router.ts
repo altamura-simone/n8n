@@ -53,6 +53,7 @@ const SetupWorkflowFromTemplateView = async () =>
 	await import('@/views/SetupWorkflowFromTemplateView/SetupWorkflowFromTemplateView.vue');
 const TemplatesSearchView = async () => await import('@/views/TemplatesSearchView.vue');
 const VariablesView = async () => await import('@/views/VariablesView.vue');
+const ThemeCustomizerView = async () => await import('@/views/ThemeCustomizerView.vue');
 const SettingsUsageAndPlan = async () => await import('./views/SettingsUsageAndPlan.vue');
 const SettingsSso = async () => await import('./views/SettingsSso.vue');
 const SignoutView = async () => await import('@/views/SignoutView.vue');
@@ -202,6 +203,15 @@ export const routes: RouteRecordRaw[] = [
 		name: VIEWS.VARIABLES,
 		components: {
 			default: VariablesView,
+			sidebar: MainSidebar,
+		},
+		meta: { middleware: ['authenticated'] },
+	},
+	{
+		path: '/theme',
+		name: VIEWS.THEMECUSTOMIZE,
+		components: {
+			default: ThemeCustomizerView,
 			sidebar: MainSidebar,
 		},
 		meta: { middleware: ['authenticated'] },

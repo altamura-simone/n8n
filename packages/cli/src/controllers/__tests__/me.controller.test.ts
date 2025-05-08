@@ -19,7 +19,6 @@ import { License } from '@/license';
 import { MfaService } from '@/mfa/mfa.service';
 import type { AuthenticatedRequest, MeRequest } from '@/requests';
 import { UserService } from '@/services/user.service';
-import type { PublicUser } from '@/types-db';
 import { mockInstance } from '@test/mocking';
 import { badPasswords } from '@test/test-data';
 

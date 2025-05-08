@@ -34,6 +34,7 @@ const tablesToTruncate = [
 	'execution_entity',
 	'installed_nodes',
 	'installed_packages',
+	'theme',
 	'project',
 	'project_relation',
 	'settings',

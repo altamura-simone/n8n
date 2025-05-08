@@ -17,6 +17,7 @@ import { InstalledPackages } from './installed-packages';
 import { InvalidAuthToken } from './invalid-auth-token';
 import { ProcessedData } from './processed-data';
 import { Project } from './project';
+import { Theme } from './theme';
 import { ProjectRelation } from './project-relation';
 import { Settings } from './settings';
 import { SharedCredentials } from './shared-credentials';
@@ -48,6 +49,7 @@ export {
 	CredentialsEntity,
 	Folder,
 	Project,
+	Theme,
 	ProjectRelation,
 	SharedCredentials,
 	SharedWorkflow,
@@ -86,6 +88,7 @@ export const entities = {
 	CredentialsEntity,
 	Folder,
 	Project,
+	Theme,
 	ProjectRelation,
 	SharedCredentials,
 	SharedWorkflow,

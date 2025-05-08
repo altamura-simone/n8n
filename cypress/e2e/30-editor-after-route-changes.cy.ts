@@ -51,6 +51,7 @@ describe('Editor zoom should work after route changes', () => {
 		cy.intercept('GET', '/rest/workflow-history/workflow/*/version/*').as('getVersion');
 		cy.intercept('GET', '/rest/workflow-history/workflow/*').as('getHistory');
 		cy.intercept('GET', '/rest/users').as('getUsers');
+		cy.intercept('GET', '/rest/themes').as('geThemes');
 		cy.intercept('GET', '/rest/workflows?*').as('getWorkflows');
 		cy.intercept('GET', '/rest/active-workflows').as('getActiveWorkflows');
 		cy.intercept('GET', '/rest/projects').as('getProjects');

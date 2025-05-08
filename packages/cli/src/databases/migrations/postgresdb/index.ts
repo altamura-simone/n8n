@@ -85,6 +85,7 @@ import { CreateAnalyticsTables1739549398681 } from '../common/1739549398681-Crea
 import { RenameAnalyticsToInsights1741167584277 } from '../common/1741167584277-RenameAnalyticsToInsights';
 import { AddScopesColumnToApiKeys1742918400000 } from '../common/1742918400000-AddScopesColumnToApiKeys';
 import { AddWorkflowStatisticsRootCount1745587087521 } from '../common/1745587087521-AddWorkflowStatisticsRootCount';
+import { CreateThemeTable1746597188633 } from '../common/1746597188633-CreateThemeTables';
 
 export const postgresMigrations: Migration[] = [
 	InitialMigration1587669153312,
@@ -172,4 +173,5 @@ export const postgresMigrations: Migration[] = [
 	RenameAnalyticsToInsights1741167584277,
 	AddScopesColumnToApiKeys1742918400000,
 	AddWorkflowStatisticsRootCount1745587087521,
+	CreateThemeTable1746597188633,
 ];

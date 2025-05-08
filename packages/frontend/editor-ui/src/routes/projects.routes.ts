@@ -160,6 +160,11 @@ export const projectsRoutes: RouteRecordRaw[] = [
 			name: commonChildRouteExtensions.home[idx].name,
 		})),
 	},
+	// {
+	// 	path: '/theme',
+	// 	name: 'ThemeCustomizerView',
+	// 	component: () => import('@/views/ThemeCustomizerView.vue'),
+	// },
 	{
 		path: '/workflows',
 		redirect: '/home/workflows',

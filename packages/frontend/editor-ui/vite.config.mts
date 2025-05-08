@@ -11,6 +11,7 @@ import components from 'unplugin-vue-components/vite';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
 import legacy from '@vitejs/plugin-legacy';
 import browserslist from 'browserslist';
+import monacoEditorPlugin, { type IMonacoEditorOpts } from 'vite-plugin-monaco-editor';
 
 const publicPath = process.env.VUE_APP_PUBLIC_PATH || '/';
 
@@ -19,7 +20,7 @@ const { NODE_ENV } = process.env;
 const browsers = browserslist.loadConfig({ path: process.cwd() });
 
 const packagesDir = resolve(__dirname, '..', '..');
-
+const monacoEditorPluginDefault = ((monacoEditorPlugin as any).default) as (options: IMonacoEditorOpts) => any;
 const alias = [
 	{ find: '@', replacement: resolve(__dirname, 'src') },
 	{ find: 'stream', replacement: 'stream-browserify' },
@@ -89,6 +90,15 @@ const plugins = [
 				},
 			],
 		},
+	}),
+	monacoEditorPluginDefault({
+		languageWorkers: ['css','typescript', 'editorWorkerService'],
+		customWorkers: [
+		  {
+			label: 'graphql',
+			entry: 'monaco-graphql/dist/graphql.worker',
+		  },
+		]
 	}),
 	legacy({
 		modernTargets: browsers,
