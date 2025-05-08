@@ -3,13 +3,13 @@ import { Application } from 'express';
 import { BaseClient, Issuer, generators } from 'openid-client';
 import session from 'express-session';
 import { UserRepository } from '@/databases/repositories/user.repository';
-import { ProjectRelationRepository } from '@/databases/repositories/project-relation.repository';
 import { PasswordUtility } from './password.utility';
-import { ProjectRepository } from '@/databases/repositories/project.repository';
 import { AuthController } from '@/controllers/auth.controller';
 import cookieParser from 'cookie-parser';
 import { promisify } from 'util';
 import { AuthenticatedRequest } from '@/requests';
+import { ProjectRepository } from '@n8n/db/src/repositories/project.repository';
+import { ProjectRelationRepository } from '@n8n/db/src/repositories/project-relation.repository';
 
 @Service()
 export class Wso2Service {

@@ -93,12 +93,6 @@ const plugins = [
 	}),
 	monacoEditorPluginDefault({
 		languageWorkers: ['css','typescript', 'editorWorkerService'],
-		customWorkers: [
-		  {
-			label: 'graphql',
-			entry: 'monaco-graphql/dist/graphql.worker',
-		  },
-		]
 	}),
 	legacy({
 		modernTargets: browsers,
