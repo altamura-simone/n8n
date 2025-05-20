@@ -3,6 +3,7 @@ import {
 	CredentialsRepository,
 	ProjectRelationRepository,
 	SharedWorkflowRepository,
+	WorkflowRepository,
 } from '@n8n/db';
 import { Service } from '@n8n/di';
 import { snakeCase } from 'change-case';
@@ -14,7 +15,6 @@ import { get as pslGet } from 'psl';
 
 import config from '@/config';
 import { N8N_VERSION } from '@/constants';
-import { WorkflowRepository } from '@/databases/repositories/workflow.repository';
 import { EventService } from '@/events/event.service';
 import type { RelayEventMap } from '@/events/maps/relay.event-map';
 import { determineFinalExecutionStatus } from '@/execution-lifecycle/shared/shared-hook-functions';
@@ -729,6 +729,7 @@ export class TelemetryEventRelay extends EventRelay {
 					sharing_role: userRole,
 					credential_type: null,
 					is_managed: false,
+					eval_rows_left: null,
 					...TelemetryHelpers.resolveAIMetrics(workflow.nodes, this.nodeTypes),
 				};
 
@@ -738,6 +739,15 @@ export class TelemetryEventRelay extends EventRelay {
 					});
 					manualExecEventProperties.node_graph_string = JSON.stringify(nodeGraphResult.nodeGraph);
 				}
+
+				nodeGraphResult?.evaluationTriggerNodeNames?.forEach((name: string) => {
+					const rowsLeft =
+						runData.data.resultData.runData[name]?.[0]?.data?.main?.[0]?.[0]?.json?._rowsLeft;
+
+					if (typeof rowsLeft === 'number') {
+						manualExecEventProperties.eval_rows_left = rowsLeft;
+					}
+				});
 
 				if (runData.data.startData?.destinationNode) {
 					const credentialsData = TelemetryHelpers.extractLastExecutedNodeCredentialData(runData);
