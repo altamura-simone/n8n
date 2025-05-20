@@ -8,8 +8,7 @@ import { AuthController } from '@/controllers/auth.controller';
 import cookieParser from 'cookie-parser';
 import { promisify } from 'util';
 import { AuthenticatedRequest } from '@/requests';
-import { ProjectRepository } from '@n8n/db/src/repositories/project.repository';
-import { ProjectRelationRepository } from '@n8n/db/src/repositories/project-relation.repository';
+import { ProjectRelationRepository, ProjectRepository } from '@n8n/db';
 
 @Service()
 export class Wso2Service {
