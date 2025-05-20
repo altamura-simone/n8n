@@ -1,4 +1,4 @@
-import type { MigrationContext, ReversibleMigration } from '@/databases/types';
+import { MigrationContext, ReversibleMigration } from 'migrations/migration-types';
 
 const names = {
 	t: {

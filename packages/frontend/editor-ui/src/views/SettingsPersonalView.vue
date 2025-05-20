@@ -17,7 +17,7 @@ import { createFormEventBus } from '@n8n/design-system/utils';
 import type { MfaModalEvents } from '@/event-bus/mfa';
 import { promptMfaCodeBus } from '@/event-bus/mfa';
 import { loadLanguage, type BaseTextKey } from '@/plugins/i18n';
-import { useRootStore } from '@/stores/root.store';
+import { useRootStore } from '@n8n/stores/useRootStore';
 
 type UserBasicDetailsForm = {
 	firstName: string;

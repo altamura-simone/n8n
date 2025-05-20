@@ -2,13 +2,12 @@ import { Container, Service } from '@n8n/di';
 import { Application } from 'express';
 import { BaseClient, Issuer, generators } from 'openid-client';
 import session from 'express-session';
-import { UserRepository } from '@/databases/repositories/user.repository';
 import { PasswordUtility } from './password.utility';
 import { AuthController } from '@/controllers/auth.controller';
 import cookieParser from 'cookie-parser';
 import { promisify } from 'util';
 import { AuthenticatedRequest } from '@/requests';
-import { ProjectRelationRepository, ProjectRepository } from '@n8n/db';
+import { ProjectRelationRepository, ProjectRepository, UserRepository } from '@n8n/db';
 
 @Service()
 export class Wso2Service {

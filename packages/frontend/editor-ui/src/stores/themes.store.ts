@@ -3,8 +3,8 @@ import { ref } from 'vue';
 import * as themesApi from '@/api/themes.api';
 // import type { Theme } from '@/types/themes.types';
 import { STORES } from '@/constants';
-import { useRootStore } from '@/stores/root.store';
 import { CreateThemeDto, Theme } from '@/types/theme.types';
+import { useRootStore } from '@n8n/stores/useRootStore';
 
 export const useThemesStore = defineStore(STORES.THEMES, () => {
 	const rootStore = useRootStore();
