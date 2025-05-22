@@ -15,7 +15,7 @@ export async function updateTheme(
 	id: string,
 	data: UpdateThemeDto,
 ): Promise<Theme> {
-	return await makeRestApiRequest(context, 'PATCH', `/themes/${id}`, data);
+	return await makeRestApiRequest(context, 'PUT', `/themes/${id}`, data);
 }
 
 export async function deleteTheme(context: IRestApiContext, id: string): Promise<void> {
