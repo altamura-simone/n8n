@@ -79,6 +79,7 @@ import { CreateTestCaseExecutionTable1736947513045 } from '../common/17369475130
 import { AddErrorColumnsToTestRuns1737715421462 } from '../common/1737715421462-AddErrorColumnsToTestRuns';
 import { CreateAnalyticsTables1739549398681 } from '../common/1739549398681-CreateAnalyticsTables';
 import { RenameAnalyticsToInsights1741167584277 } from '../common/1741167584277-RenameAnalyticsToInsights';
+import { ClearEvaluation1745322634000 } from '../common/1745322634000-CleanEvaluations';
 import { AddWorkflowStatisticsRootCount1745587087521 } from '../common/1745587087521-AddWorkflowStatisticsRootCount';
 import { CreateThemeTable1746597188633 } from '../common/1746597188633-CreateThemeTables';
 import { AddWorkflowArchivedColumn1745934666076 } from '../common/1745934666076-AddWorkflowArchivedColumn';
@@ -171,6 +172,7 @@ const sqliteMigrations: Migration[] = [
 	CreateThemeTable1746597188633,
 	AddWorkflowArchivedColumn1745934666076,
 	DropRoleTable1745934666077,
+	ClearEvaluation1745322634000,
 ];
 
 export { sqliteMigrations };
