@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useI18n } from '@/composables/useI18n';
+import { useI18n } from '@n8n/i18n';
 import { N8nText, N8nButton, N8nCallout } from '@n8n/design-system';
 import { ref, computed } from 'vue';
 import { useWorkflowsStore } from '@/stores/workflows.store';
@@ -9,6 +9,7 @@ import StepHeader from '../shared/StepHeader.vue';
 import { useRouter } from 'vue-router';
 import { useUsageStore } from '@/stores/usage.store';
 import { usePageRedirectionHelper } from '@/composables/usePageRedirectionHelper';
+import { I18nT } from 'vue-i18n';
 
 defineEmits<{
 	runTest: [];
@@ -49,11 +50,7 @@ const initializeActiveStep = () => {
 		return;
 	}
 
-	if (
-		evaluationStore.evaluationTriggerExists &&
-		evaluationStore.evaluationSetOutputsNodeExist &&
-		evaluationStore.evaluationSetMetricsNodeExist
-	) {
+	if (evaluationStore.evaluationTriggerExists && evaluationStore.evaluationSetMetricsNodeExist) {
 		activeStepIndex.value = 3;
 	} else if (
 		evaluationStore.evaluationTriggerExists &&
@@ -213,13 +210,13 @@ function onSeePlans() {
 						:class="$style.quotaNote"
 					>
 						<N8nText size="xsmall" color="text-base">
-							<i18n-t keypath="evaluations.setupWizard.step3.notice">
+							<I18nT keypath="evaluations.setupWizard.step3.notice" scope="global">
 								<template #link>
 									<a style="text-decoration: underline; color: inherit" @click="onSeePlans"
 										>{{ locale.baseText('evaluations.setupWizard.step3.notice.link') }}
 									</a>
 								</template>
-							</i18n-t>
+							</I18nT>
 						</N8nText>
 					</div>
 				</div>
@@ -241,7 +238,8 @@ function onSeePlans() {
 							type="secondary"
 							:disabled="
 								!evaluationStore.evaluationTriggerExists ||
-								!evaluationStore.evaluationSetOutputsNodeExist
+								(!evaluationStore.evaluationSetOutputsNodeExist &&
+									!evaluationStore.evaluationSetMetricsNodeExist)
 							"
 							@click="$emit('runTest')"
 						>
@@ -253,7 +251,8 @@ function onSeePlans() {
 							type="secondary"
 							:disabled="
 								!evaluationStore.evaluationTriggerExists ||
-								!evaluationStore.evaluationSetOutputsNodeExist
+								(!evaluationStore.evaluationSetOutputsNodeExist &&
+									!evaluationStore.evaluationSetMetricsNodeExist)
 							"
 							@click="navigateToWorkflow('executeEvaluation')"
 						>

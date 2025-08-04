@@ -1,4 +1,5 @@
 import { LicenseState } from '@n8n/backend-common';
+import { createWorkflow, shareWorkflowWithUsers, testDb } from '@n8n/backend-test-utils';
 import type { User } from '@n8n/db';
 import { Container } from '@n8n/di';
 import { mock } from 'jest-mock-extended';
@@ -7,8 +8,6 @@ import { ProjectService } from '@/services/project.service.ee';
 import { WorkflowSharingService } from '@/workflows/workflow-sharing.service';
 
 import { createUser } from '../shared/db/users';
-import { createWorkflow, shareWorkflowWithUsers } from '../shared/db/workflows';
-import * as testDb from '../shared/test-db';
 
 let owner: User;
 let member: User;
@@ -72,7 +71,7 @@ describe('WorkflowSharingService', () => {
 			// ARRANGE
 			//
 			const project = await projectService.createTeamProject(member, { name: 'Team Project' });
-			await projectService.addUser(project.id, anotherMember.id, 'project:admin');
+			await projectService.addUser(project.id, { userId: anotherMember.id, role: 'project:admin' });
 			const workflow = await createWorkflow(undefined, project);
 
 			//
@@ -96,8 +95,14 @@ describe('WorkflowSharingService', () => {
 			const workflow1 = await createWorkflow(undefined, project1);
 			const project2 = await projectService.createTeamProject(member, { name: 'Team Project 2' });
 			const workflow2 = await createWorkflow(undefined, project2);
-			await projectService.addUser(project1.id, anotherMember.id, 'project:admin');
-			await projectService.addUser(project2.id, anotherMember.id, 'project:viewer');
+			await projectService.addUser(project1.id, {
+				userId: anotherMember.id,
+				role: 'project:admin',
+			});
+			await projectService.addUser(project2.id, {
+				userId: anotherMember.id,
+				role: 'project:viewer',
+			});
 
 			//
 			// ACT

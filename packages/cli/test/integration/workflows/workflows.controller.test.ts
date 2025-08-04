@@ -1,10 +1,21 @@
-import type { User } from '@n8n/db';
-import type { ListQueryDb } from '@n8n/db';
-import type { WorkflowFolderUnionFull } from '@n8n/db';
-import { ProjectRepository } from '@n8n/db';
-import { WorkflowHistoryRepository } from '@n8n/db';
-import { SharedWorkflowRepository } from '@n8n/db';
-import { WorkflowRepository } from '@n8n/db';
+import {
+	createTeamProject,
+	getPersonalProject,
+	linkUserToProject,
+	createWorkflow,
+	shareWorkflowWithProjects,
+	shareWorkflowWithUsers,
+	randomCredentialPayload,
+	testDb,
+	mockInstance,
+} from '@n8n/backend-test-utils';
+import type { User, ListQueryDb, WorkflowFolderUnionFull } from '@n8n/db';
+import {
+	ProjectRepository,
+	WorkflowHistoryRepository,
+	SharedWorkflowRepository,
+	WorkflowRepository,
+} from '@n8n/db';
 import { Container } from '@n8n/di';
 import type { Scope } from '@n8n/permissions';
 import { DateTime } from 'luxon';
@@ -18,18 +29,9 @@ import type { ListQueryDb } from '@/types-db';
 import { EnterpriseWorkflowService } from '@/workflows/workflow.service.ee';
 import { createFolder } from '@test-integration/db/folders';
 
-import { mockInstance } from '../../shared/mocking';
 import { saveCredential } from '../shared/db/credentials';
-import { createTeamProject, getPersonalProject, linkUserToProject } from '../shared/db/projects';
 import { assignTagToWorkflow, createTag } from '../shared/db/tags';
 import { createManyUsers, createMember, createOwner } from '../shared/db/users';
-import {
-	createWorkflow,
-	shareWorkflowWithProjects,
-	shareWorkflowWithUsers,
-} from '../shared/db/workflows';
-import { randomCredentialPayload } from '../shared/random';
-import * as testDb from '../shared/test-db';
 import type { SuperAgentTest } from '../shared/types';
 import * as utils from '../shared/utils/';
 import { makeWorkflow, MOCK_PINDATA } from '../shared/utils/';
@@ -55,7 +57,6 @@ const { objectContaining, arrayContaining, any } = expect;
 const activeWorkflowManagerLike = mockInstance(ActiveWorkflowManager);
 
 let projectRepository: ProjectRepository;
-let projectService: ProjectService;
 
 beforeEach(async () => {
 	await testDb.truncate([
@@ -69,7 +70,6 @@ beforeEach(async () => {
 		'User',
 	]);
 	projectRepository = Container.get(ProjectRepository);
-	projectService = Container.get(ProjectService);
 	owner = await createOwner();
 	authOwnerAgent = testServer.authAgentFor(owner);
 	member = await createMember();
@@ -289,7 +289,10 @@ describe('POST /workflows', () => {
 				type: 'team',
 			}),
 		);
-		await projectService.addUser(project.id, owner.id, 'project:admin');
+		await Container.get(ProjectService).addUser(project.id, {
+			userId: owner.id,
+			role: 'project:admin',
+		});
 
 		//
 		// ACT
@@ -363,7 +366,10 @@ describe('POST /workflows', () => {
 				type: 'team',
 			}),
 		);
-		await projectService.addUser(project.id, member.id, 'project:viewer');
+		await Container.get(ProjectService).addUser(project.id, {
+			userId: member.id,
+			role: 'project:viewer',
+		});
 
 		//
 		// ACT

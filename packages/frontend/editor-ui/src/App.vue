@@ -9,7 +9,7 @@ import Modals from '@/components/Modals.vue';
 import Telemetry from '@/components/Telemetry.vue';
 import AskAssistantFloatingButton from '@/components/AskAssistant/Chat/AskAssistantFloatingButton.vue';
 import AssistantsHub from '@/components/AskAssistant/AssistantsHub.vue';
-import { loadLanguage } from '@/plugins/i18n';
+import { loadLanguage } from '@n8n/i18n';
 import { APP_MODALS_ELEMENT_ID, HIRING_BANNER, VIEWS } from '@/constants';
 import { useRootStore } from '@n8n/stores/useRootStore';
 import { useAssistantStore } from '@/stores/assistant.store';
@@ -19,6 +19,8 @@ import { useUsersStore } from '@/stores/users.store';
 import { useSettingsStore } from '@/stores/settings.store';
 import { useHistoryHelper } from '@/composables/useHistoryHelper';
 import { useStyles } from './composables/useStyles';
+import { locale } from '@n8n/design-system';
+import axios from 'axios';
 
 const route = useRoute();
 const rootStore = useRootStore();
@@ -36,7 +38,10 @@ useHistoryHelper(route);
 const loading = ref(true);
 const defaultLocale = computed(() => rootStore.defaultLocale);
 const isDemoMode = computed(() => route.name === VIEWS.DEMO);
-const showAssistantButton = computed(() => assistantStore.canShowAssistantButtonsOnCanvas);
+const showAssistantFloatingButton = computed(
+	() =>
+		assistantStore.canShowAssistantButtonsOnCanvas && !assistantStore.hideAssistantFloatingButton,
+);
 const hasContentFooter = ref(false);
 const appGrid = ref<Element | null>(null);
 
@@ -79,10 +84,16 @@ watch(route, (r) => {
 	);
 });
 
-watch(defaultLocale, (newLocale) => {
-	let lang = localStorage.getItem('user-language') ?? 'en';
-	void loadLanguage(lang);
-});
+watch(
+	defaultLocale,
+	(newLocale) => {
+		let lang = localStorage.getItem('user-language') ?? 'en';
+		void loadLanguage(lang);
+		void locale.use(lang);
+		axios.defaults.headers.common['Accept-Language'] = lang;
+	},
+	{ immediate: true },
+);
 </script>
 
 <template>
@@ -122,7 +133,7 @@ watch(defaultLocale, (newLocale) => {
 				<Modals />
 			</div>
 			<Telemetry />
-			<AskAssistantFloatingButton v-if="showAssistantButton" />
+			<AskAssistantFloatingButton v-if="showAssistantFloatingButton" />
 		</div>
 		<AssistantsHub />
 	</div>

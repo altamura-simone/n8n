@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { EditorState, SelectionRange } from '@codemirror/state';
 
-import { useI18n } from '@/composables/useI18n';
+import { useI18n } from '@n8n/i18n';
 import { useNDVStore } from '@/stores/ndv.store';
 import type { Segment } from '@/types/expressions';
 import { onBeforeUnmount } from 'vue';
@@ -83,6 +83,13 @@ onBeforeUnmount(() => {
 
 	.body {
 		padding: var(--spacing-3xs);
+		padding-top: 0;
+		padding-left: var(--spacing-2xs);
+		color: var(--color-text-dark);
+
+		&:first-child {
+			padding-top: var(--spacing-2xs);
+		}
 	}
 
 	.footer {
@@ -98,16 +105,6 @@ onBeforeUnmount(() => {
 		font-weight: var(--font-weight-bold);
 		padding: 0 var(--spacing-2xs);
 		padding-top: var(--spacing-2xs);
-	}
-
-	.body {
-		padding-top: 0;
-		padding-left: var(--spacing-2xs);
-		color: var(--color-text-dark);
-
-		&:first-child {
-			padding-top: var(--spacing-2xs);
-		}
 	}
 }
 </style>
