@@ -1,9 +1,9 @@
-import type { Theme } from '@n8n/db';
+import type { AuthenticatedRequest, Theme } from '@n8n/db';
 import { Body, Delete, Get, Param, Post, Put, RestController } from '@n8n/decorators';
 // eslint-disable-next-line n8n-local-rules/misplaced-n8n-typeorm-import
 
-import { AuthenticatedRequest, AuthlessRequest } from '@/requests';
 import { ThemeRepository } from '@/databases/repositories/theme.repository';
+import { AuthlessRequest } from '@/requests';
 
 @RestController('/themes')
 export class ThemeController {

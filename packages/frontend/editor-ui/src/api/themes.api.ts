@@ -1,6 +1,5 @@
-import { IRestApiContext } from '@/Interface';
 import type { Theme, CreateThemeDto, UpdateThemeDto } from '@/types/theme.types';
-import { makeRestApiRequest } from '@/utils/apiUtils';
+import { IRestApiContext, makeRestApiRequest } from '@n8n/rest-api-client';
 
 export async function getAllThemes(context: IRestApiContext): Promise<Theme[]> {
 	return await makeRestApiRequest(context, 'GET', '/themes');
